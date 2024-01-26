@@ -880,6 +880,8 @@ originally conceived to represent a spiking neuron.
 We define the system in the following form:
 
 ```@example MAIN
+using OrdinaryDiffEq
+
 function fitzhugh_nagumo(u,p,t)
     x, y = u
     eps, beta = p
@@ -925,7 +927,7 @@ bisect_thresh, diverge_thresh, Δt, abstol = 1e-3, 2e-3, 1e-5, 1e-3
 et = edgetracking(ds, attractors_AB; u1=init1, u2=init2,
     bisect_thresh, diverge_thresh, Δt, abstol)
 
-et.edge[end]
+println(et.edge[end])
 ```
 
 The algorithm has converged to the origin (up to the specified accuracy) where the saddle
@@ -939,6 +941,8 @@ counteracting the instability of the saddle, the edge tracking algorithm instead
 track the basin boundary all the way to the saddle, or edge state.
 
 ```@example MAIN
+using CairoMakie
+
 traj1 = trajectory(ds, 2, et.track1[et.bisect_idx[1]], Δt=1e-5)
 traj2 = trajectory(ds, 2, et.track2[et.bisect_idx[1]], Δt=1e-5)
 
